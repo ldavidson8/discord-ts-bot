@@ -1,0 +1,31 @@
+import { Pool } from 'pg';
+import { Kysely, PostgresDialect } from 'kysely';
+import env from '../env.js';
+import type { DB } from './types.js';
+
+const dialect = new PostgresDialect({
+	pool: new Pool({
+		connectionString: env.DATABASE_URL,
+		port: 5432,
+		max: 20,
+		min: 4,
+		client_encoding: 'utf8',
+		idleTimeoutMillis: 1000,
+		connectionTimeoutMillis: 1000,
+	}),
+});
+
+export const db = new Kysely<DB>({
+	dialect,
+});
+
+export async function connectDb(): Promise<Kysely<DB>> {
+	try {
+		// Test the connection with a simple query
+		await db.selectFrom('guilds').select('id').limit(1).execute();
+		return db;
+	} catch (error) {
+		console.error('Database connection failed:', error);
+		throw error;
+	}
+}
