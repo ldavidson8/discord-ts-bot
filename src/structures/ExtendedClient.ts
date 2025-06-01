@@ -52,6 +52,20 @@ export default class ExtendedClient extends Client {
 
 	public button = () => new ExtendedButtonBuilder();
 
+	public async getPrefix(guildId?: string): Promise<string> {
+		if (guildId && this.database) {
+			const row = await this.database
+				.selectFrom('guildSettings')
+				.select('prefix')
+				.where('guildId', '=', guildId)
+				.executeTakeFirst();
+
+			return row?.prefix ?? this.prefix;
+		}
+
+		return this.prefix;
+	}
+
 	public webhooks = Object.fromEntries(
 		Object.entries(config.webhooks).map(([hook, url]) => [
 			hook as keyof WebhookConfig,

@@ -3,98 +3,24 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely';
+import type { ColumnType } from "kysely";
 
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
-	? ColumnType<S, I | undefined, U>
-	: ColumnType<T, T | undefined, T>;
-
-export type Json = JsonValue;
-
-export type JsonArray = JsonValue[];
-
-export type JsonObject = {
-	[x: string]: JsonValue | undefined;
-};
-
-export type JsonPrimitive = boolean | number | string | null;
-
-export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
+  ? ColumnType<S, I | undefined, U>
+  : ColumnType<T, T | undefined, T>;
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
-export interface BotSettings {
-	autoModSettings: Json | null;
-	autoRoleId: string | null;
-	createdAt: Generated<Timestamp>;
-	customSettings: Json | null;
-	guildId: string;
-	logChannelId: string | null;
-	moderationEnabled: Generated<boolean | null>;
-	updatedAt: Generated<Timestamp>;
-	welcomeChannelId: string | null;
-}
-
-export interface Commands {
-	args: Json | null;
-	channelId: string;
-	errorMessage: string | null;
-	executedAt: Generated<Timestamp>;
-	guildId: string | null;
-	id: Generated<number>;
-	name: string;
-	success: Generated<boolean | null>;
-	userId: string;
-}
-
-export interface GuildMembers {
-	createdAt: Generated<Timestamp>;
-	guildId: string;
-	joinedAt: Timestamp;
-	nickname: string | null;
-	roles: Json | null;
-	updatedAt: Generated<Timestamp>;
-	userId: string;
-}
-
-export interface Guilds {
-	createdAt: Generated<Timestamp>;
-	id: string;
-	memberCount: Generated<number | null>;
-	name: string;
-	ownerId: string;
-	prefix: Generated<string | null>;
-	updatedAt: Generated<Timestamp>;
-}
-
-export interface ModerationLogs {
-	action: string;
-	active: Generated<boolean | null>;
-	createdAt: Generated<Timestamp>;
-	duration: number | null;
-	expiresAt: Timestamp | null;
-	guildId: string;
-	id: Generated<number>;
-	moderatorId: string;
-	reason: string | null;
-	targetId: string;
-}
-
-export interface Users {
-	avatar: string | null;
-	bot: Generated<boolean | null>;
-	createdAt: Generated<Timestamp>;
-	discriminator: string | null;
-	id: string;
-	updatedAt: Generated<Timestamp>;
-	username: string;
+export interface GuildSettings {
+  createdAt: Generated<Timestamp>;
+  guildId: string;
+  logChannelId: string | null;
+  moderationEnabled: Generated<boolean | null>;
+  prefix: Generated<string | null>;
+  updatedAt: Generated<Timestamp>;
+  welcomeChannelId: string | null;
 }
 
 export interface DB {
-	botSettings: BotSettings;
-	commands: Commands;
-	guildMembers: GuildMembers;
-	guilds: Guilds;
-	moderationLogs: ModerationLogs;
-	users: Users;
+  guildSettings: GuildSettings;
 }

@@ -28,7 +28,7 @@ export default class InfoCommand extends Command {
 		try {
 			const apiLatency = client.ws.ping;
 			const start = Date.now();
-			await client.database?.selectFrom('guilds').select('id').limit(1).execute();
+			await client.database?.selectFrom('guildSettings').select('guildId').limit(1).execute();
 			const dbLatency = Date.now() - start;
 			const createdTimestamp = ctx.isInteraction
 				? ctx.interaction?.createdTimestamp
