@@ -11,7 +11,14 @@ export default class Ready extends Event {
 	public async run(): Promise<void> {
 		this.client.guilds.fetch();
 		this.client.logger.start(`[CLIENT] ${this.client.user?.tag} is ready!`);
-		await this.client.deployCommands();
-		this.client.logger.success('[CLIENT] Slash commands have been deployed globally.');
+		if (this.client.development === true) {
+			await this.client.deployCommands(this.client.config.guildId);
+			this.client.logger.success(
+				'[CLIENT] Slash commands have been deployed to the development guild.',
+			);
+		} else {
+			await this.client.deployCommands();
+			this.client.logger.success('[CLIENT] Slash commands have been deployed globally.');
+		}
 	}
 }
